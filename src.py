@@ -5,9 +5,9 @@ import sys, time
 from UI_src import *
 
 # Constants for sizes/dimensions
-CELLS_PER_SIDE      =   25
-WIN_WIDTH           =   1200
-WIN_HEIGHT          =   1600
+CELLS_PER_SIDE      =   50
+WIN_WIDTH           =   800
+WIN_HEIGHT          =   1000
 
 # Status constants
 STATUS_DEAD     =   0

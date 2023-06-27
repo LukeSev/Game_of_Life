@@ -1,10 +1,12 @@
 from src import *
-class Cell(QWidget):
-    def __init__(self, row, col, grid_width, grid_height):
-        QWidget.__init__(self)
+class Cell(QPushButton):
+    def __init__(self, row, col, grid_width, grid_height, edge_size):
+        super().__init__()
         self.button     =   QPushButton()
+        self.button.setFixedHeight(edge_size)
+        self.button.setFixedWidth(edge_size)
         self.button.setStyleSheet("background-color:{}".format(COLOR_BASE))
-        self.button.clicked.connect(self.set_alive)
+        self.button.clicked.connect(self.toggle_cell)
         self.status     =   STATUS_DEAD
         self.neighbors  =   self.get_neighbors(row, col, grid_width, grid_height)
 
@@ -47,11 +49,14 @@ class Cell(QWidget):
             return
         self.status = status
     
-    def set_alive(self):
-        self.update_cell(STATUS_ALIVE)
+    def toggle_cell(self):
+        if(self.status == STATUS_ALIVE):
+            self.update_cell(STATUS_DEAD)
+        elif(self.status == STATUS_DEAD):
+            self.update_cell(STATUS_ALIVE)
 
 class cellGrid():
-    def __init__(self, grid_width, grid_height, cell_color, cell_cols, cell_rows, cell_size):
+    def __init__(self, grid_width, grid_height, cell_cols, cell_rows, cell_size):
         self.width      =   grid_width      # width in pixels
         self.height     =   grid_height     # height in pixels
         self.cell_size  =   cell_size       # Size of each dimension of cell (cells are square)
@@ -66,8 +71,8 @@ class cellGrid():
         self.grid = QGridLayout()
         for row in range(self.rows):
             for col in range(self.cols):
-                new_cell = Cell(row, col, self.width, self.height)
-                self.grid.addWidget(new_cell.btn, row, col)
+                new_cell = Cell(row, col, self.width, self.height, self.cell_size)
+                self.grid.addWidget(new_cell.button, row, col)
                 self.cells.append(new_cell)
 
 
